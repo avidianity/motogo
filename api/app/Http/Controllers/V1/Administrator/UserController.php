@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\V1;
+namespace App\Http\Controllers\V1\Administrator;
 
 use App\Exceptions\User\UnableToDeleteException;
 use App\Http\Controllers\Controller;
