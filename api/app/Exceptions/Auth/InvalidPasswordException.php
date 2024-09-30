@@ -12,6 +12,6 @@ class InvalidPasswordException extends Exception
 
     public function __construct()
     {
-        parent::__construct('Password is incorrect', static::INCORRECT_PASSWORD);
+        parent::__construct('Password is incorrect', static::PASSWORD_INVALID);
     }
 }

@@ -39,7 +39,7 @@ class AuthController extends Controller
             ->orWhere('email', $id)
             ->first();
 
-        if (is_null($user)) {
+        if (!$user) {
             throw new UserMissingException(['identifier' => $id]);
         }
 
@@ -56,5 +56,12 @@ class AuthController extends Controller
                 'expiry' => $this->guard->getTTL(),
             ],
         ]);
+    }
+
+    public function logout()
+    {
+        $this->guard->logout(true);
+
+        return response()->noContent();
     }
 }
