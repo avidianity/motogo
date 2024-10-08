@@ -64,20 +64,28 @@ class RiderRegistration implements Processor
                 /**
                  * @var Models\User
                  */
-                $rider = Models\User::make($this->data)->fill(['role'=> Role::RIDER]);
+                $rider = Models\User::make($this->data)->fill([
+                    'role' => Role::RIDER,
+                    'blocked' => false,
+                    'approved' => false,
+                ]);
 
                 $rider->save();
 
-                $license = Models\DriversLicense::make([
-                    'file_id' => $this->processFile($this->driversLicense, $rider->getKey())->getKey()
+                $licenseFile = $this->processFile($this->driversLicense, $rider->getKey());
+                $license = Models\DriversLicense::create([
+                    'file_id' => $licenseFile->getKey(),
+                    'user_id' => $rider->getKey(),
                 ]);
+                $license->setRelation('file', $licenseFile);
 
-                $registration = Models\VehicleRegistration::make([
-                    'file_id' => $this->processFile($this->vehicleRegistration, $rider->getKey())->getKey()
+                $registrationFile = $this->processFile($this->vehicleRegistration, $rider->getKey());
+                $registration = Models\VehicleRegistration::create([
+                    'file_id' => $registrationFile->getKey(),
+                    'user_id' => $rider->getKey(),
                 ]);
+                $registration->setRelation('file', $registrationFile);
 
-                $rider->license()->save($license);
-                $rider->registration()->save($registration);
                 $rider->setRelations([
                     'license' => $license,
                     'registration' => $registration,
@@ -100,6 +108,9 @@ class RiderRegistration implements Processor
             'size' => $file->getSize(),
             'path' => $path,
             'driver' => config('registration.rider.storage.driver'),
+            'root' => config('registration.rider.storage.root'),
+            'serve' => config('registration.rider.storage.serve'),
+            'throw' => config('registration.rider.storage.throw'),
         ]);
     }
 }

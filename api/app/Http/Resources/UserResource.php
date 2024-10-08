@@ -25,8 +25,14 @@ class UserResource extends JsonResource
             'username' => $this->username,
             'email' => $this->email,
             'role' => $this->role,
-            'license' => $this->when($this->role === Role::RIDER && $this->relationLoaded('license'), fn() => $this->license),
-            'registration' => $this->when($this->role === Role::RIDER && $this->relationLoaded('registration'), fn() => $this->registration),
+            'license' => $this->when(
+                $this->role === Role::RIDER && $this->relationLoaded('license'),
+                fn() => DriversLicenseResource::make($this->license)
+            ),
+            'registration' => $this->when(
+                $this->role === Role::RIDER && $this->relationLoaded('registration'),
+                fn() => VehicleRegistrationResource::make($this->registration)
+            ),
         ];
     }
 }

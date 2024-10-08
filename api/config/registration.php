@@ -9,4 +9,12 @@ return [
             'throw' => true,
         ],
     ],
+    'customer' => [
+        'storage' => [
+            'driver' => env('CUSTOMER_REGISTRATION_STORAGE_DRIVER', 'local'),
+            'root' => storage_path('app/customer'),
+            'serve' => true,
+            'throw' => true,
+        ],
+    ],
 ];

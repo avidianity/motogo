@@ -31,7 +31,11 @@ class CustomerRegistration implements Processor
                 /**
                  * @var User
                  */
-                $customer = User::make($this->data)->fill(['role'=> Role::CUSTOMER]);
+                $customer = User::make($this->data)->fill([
+                    'role'=> Role::CUSTOMER,
+                    'blocked' => false,
+                    'approved' => false,
+                ]);
                 $customer->save();
 
 

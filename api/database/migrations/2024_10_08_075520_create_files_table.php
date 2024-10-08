@@ -21,6 +21,9 @@ return new class extends Migration
             $table->unsignedBigInteger('size');
             $table->string('path');
             $table->string('driver');
+            $table->string('root');
+            $table->boolean('serve');
+            $table->boolean('throw');
 
             $table->timestamps();
         });

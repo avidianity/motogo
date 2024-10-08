@@ -3,6 +3,7 @@
 use App\Enums\Role;
 use App\Http\Controllers\V1\Administrator\UserController;
 use App\Http\Controllers\V1\AuthController;
+use App\Http\Controllers\V1\FileController;
 use Illuminate\Support\Facades\Route;
 
 $admin = Role::ADMIN();
@@ -19,4 +20,8 @@ Route::prefix('auth')->as('auth.')->group(function () {
 
 Route::prefix('administrator')->as('administrator.')->middleware(['auth', "role:{$admin}"])->group(function () {
     Route::apiResource('users', UserController::class);
+});
+
+Route::middleware('auth')->group(function () {
+    Route::apiResource('files', FileController::class)->only(['show']);
 });

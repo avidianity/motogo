@@ -10,6 +10,7 @@ use App\Http\Resources\UserResource;
 use App\Models\User;
 use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class UserController extends Controller
 {
@@ -45,12 +46,22 @@ class UserController extends Controller
             throw new UnableToDeleteException('Cannot delete own account');
         }
 
-        try {
-            $user->delete();
+        return DB::transaction(function () use ($user) {
+            try {
+                $user->load([
+                    'license.file',
+                    'registration.file',
+                ]);
 
-            return response()->noContent();
-        } catch (Exception $exception) {
-            throw new UnableToDeleteException($exception->getMessage(), $exception);
-        }
+                $user->license?->file?->delete();
+                $user->registration?->file?->delete();
+
+                $user->delete();
+
+                return response()->noContent();
+            } catch (Exception $exception) {
+                throw new UnableToDeleteException($exception->getMessage(), $exception);
+            }
+        });
     }
 }
