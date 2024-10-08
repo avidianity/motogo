@@ -35,6 +35,8 @@ class UpdateRequest extends FormRequest
             'email' => ['nullable', new Email, 'max:255', $unique],
             'password' => ['nullable', Password::default(), 'confirmed'],
             'role' => ['nullable', Rule::in(Role::values())],
+            'approved' => ['nullable', 'boolean'],
+            'blocked' => ['nullable', 'boolean'],
         ];
     }
 

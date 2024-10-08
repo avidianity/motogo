@@ -17,6 +17,8 @@ class UserSeeder extends Seeder
             'email' => 'admin@gmail.com',
             'username' => 'admin',
             'role' => Role::ADMIN,
+            'approved' => true,
+            'blocked' => false,
         ]);
     }
 }

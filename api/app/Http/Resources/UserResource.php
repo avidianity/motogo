@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources;
 
+use App\Enums\Role;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -24,6 +25,8 @@ class UserResource extends JsonResource
             'username' => $this->username,
             'email' => $this->email,
             'role' => $this->role,
+            'license' => $this->when($this->role === Role::RIDER && $this->relationLoaded('license'), fn() => $this->license),
+            'registration' => $this->when($this->role === Role::RIDER && $this->relationLoaded('registration'), fn() => $this->registration),
         ];
     }
 }

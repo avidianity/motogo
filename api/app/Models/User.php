@@ -28,6 +28,8 @@ class User extends Authenticatable implements MustVerifyEmail, JWTSubject
         'email',
         'password',
         'role',
+        'approved',
+        'blocked',
     ];
 
     /**
@@ -50,6 +52,8 @@ class User extends Authenticatable implements MustVerifyEmail, JWTSubject
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
             'role' => Role::class,
+            'approved' => 'boolean',
+            'blocked' => 'boolean',
         ];
     }
     /**
@@ -70,5 +74,15 @@ class User extends Authenticatable implements MustVerifyEmail, JWTSubject
     public function getJWTCustomClaims()
     {
         return [];
+    }
+
+    public function license()
+    {
+        return $this->hasOne(DriversLicense::class);
+    }
+
+    public function registration()
+    {
+        return $this->hasOne(VehicleRegistration::class);
     }
 }

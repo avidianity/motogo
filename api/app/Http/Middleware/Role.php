@@ -17,8 +17,22 @@ class Role
      */
     public function handle(Request $request, Closure $next, string $role): Response
     {
-        if ($request->user()?->role !== Enums\Role::from($role)) {
+        $user = $request->user();
+
+        if (!$user) {
             throw new UnauthorizedException;
+        }
+
+        if ($user->role !== Enums\Role::from($role)) {
+            throw new UnauthorizedException;
+        }
+
+        if (!$user->approved) {
+            throw new UnauthorizedException('Account is not approved', 'NOT_APPROVED');
+        }
+
+        if ($user->blocked) {
+            throw new UnauthorizedException('Account is blocked', 'BLOCKED');
         }
 
         return $next($request);

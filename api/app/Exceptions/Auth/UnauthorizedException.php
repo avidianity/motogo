@@ -13,7 +13,7 @@ class UnauthorizedException extends Exception
     const KEY = 'UNAUTHORIZED_ACTION';
     const STATUS_CODE = Response::HTTP_UNAUTHORIZED;
 
-    public function __construct(string $message = 'Unauthorized action')
+    public function __construct(string $message = 'Unauthorized action', protected string $subKey = '')
     {
         parent::__construct($message, static::UNAUTHORIZED_ACTION);
     }

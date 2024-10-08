@@ -9,10 +9,11 @@ $admin = Role::ADMIN();
 
 Route::prefix('auth')->as('auth.')->group(function () {
     Route::post('login', [AuthController::class, 'login'])->name('login');
-    Route::delete('logout', [AuthController::class, 'logout'])->name('logout');
+    Route::post('register', [AuthController::class, 'register'])->name('register');
 
     Route::middleware('auth')->group(function () {
         Route::get('check', [AuthController::class, 'check'])->name('check');
+        Route::delete('logout', [AuthController::class, 'logout'])->name('logout');
     });
 });
 

@@ -11,4 +11,6 @@ enum Role: string
     use Values;
 
     case ADMIN = 'admin';
+    case RIDER = 'rider';
+    case CUSTOMER = 'customer';
 }
