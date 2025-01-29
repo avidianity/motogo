@@ -7,7 +7,7 @@ use App\Exceptions\Processors\RiderRegistrationException;
 use App\Interfaces\Processor;
 use Exception;
 use Illuminate\Contracts\Filesystem\Filesystem;
-use Illuminate\Http\File;
+use Illuminate\Http\UploadedFile as File;
 use Illuminate\Support\Facades\Storage;
 use App\Models;
 use Illuminate\Support\Facades\DB;
@@ -103,7 +103,7 @@ class RiderRegistration implements Processor
         $this->storage->put($path, $file);
 
         return Models\File::create([
-            'name' => $file->getFilename(),
+            'name' => $file->getClientOriginalName(),
             'type' => $file->getMimeType(),
             'size' => $file->getSize(),
             'path' => $path,

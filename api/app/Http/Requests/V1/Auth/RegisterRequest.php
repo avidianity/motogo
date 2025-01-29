@@ -38,8 +38,8 @@ class RegisterRequest extends FormRequest
 
         return [
             'type' => ['required', 'string', 'max:255', Rule::in($roles)],
-            'drivers_license' => [$ifIsRider, $image],
-            'vehicle_registration' => [$ifIsRider, $image],
+            'license' => [$ifIsRider, $image],
+            'registration' => [$ifIsRider, $image],
             'first_name' => ['required', 'string', 'max:255'],
             'last_name' => ['required', 'string', 'max:255'],
             'username' => ['required', 'string', 'max:255', $unique],
